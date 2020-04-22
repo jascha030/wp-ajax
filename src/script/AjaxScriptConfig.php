@@ -1,6 +1,6 @@
 <?php
 
-namespace Jascha030\WP\Ajax\script;
+namespace Jascha030\WP\Ajax\Script;
 
 class AjaxScriptConfig
 {
