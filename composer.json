@@ -1,0 +1,22 @@
+{
+  "name": "jascha030/wp-ajax",
+  "description": "WP Ajax with OOP",
+  "version": "0.0.1",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jascha van Aalst",
+      "email": "contact@jaschavanaalst.nl",
+      "homepage": "https://github.com/jascha030",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Jascha030\\WP\\Ajax\\": "src/"
+    }
+  },
+  "require": {
+    "jascha030/wp-subscriptions": "^1.0"
+  }
+}
