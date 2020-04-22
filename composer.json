@@ -1,7 +1,7 @@
 {
   "name": "jascha030/wp-ajax",
   "description": "WP Ajax with OOP, also includes provider class for usage with jascha030/wp-subscriptions",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "license": "MIT",
   "authors": [
     {
