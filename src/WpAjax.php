@@ -2,7 +2,7 @@
 
 namespace Jascha030\WP\Ajax;
 
-use Jascha030\WP\Ajax\script\AjaxScriptConfig;
+use Jascha030\WP\Ajax\Script\AjaxScriptConfig;
 
 use ReflectionClass;
 use ReflectionException;
@@ -35,6 +35,9 @@ class WpAjax
      */
     protected $nopriv;
 
+    /**
+     * @var array
+     */
     protected $callables = [];
 
     /**
