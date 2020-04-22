@@ -3,7 +3,7 @@
 namespace Jascha030\WP\Ajax\Provider;
 
 use Exception;
-use Jascha030\WP\Ajax\script\AjaxScriptConfig;
+use Jascha030\WP\Ajax\Script\AjaxScriptConfig;
 use Jascha030\WP\Ajax\WpAjax;
 use Jascha030\WP\Subscriptions\Provider\ActionProvider;
 use Jascha030\WP\Subscriptions\Provider\Provider;
