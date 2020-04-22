@@ -11,6 +11,7 @@ use ReflectionMethod;
 
 /**
  * Class WpAjaxProvider
+ * For usage with the jascha030\wp-subscriptions package
  *
  * @package Jascha030\WP\Ajax\Provider
  */
