@@ -2,6 +2,7 @@
 
 namespace Jascha030\WP\Ajax\Provider;
 
+use Exception;
 use Jascha030\WP\Ajax\script\AjaxScriptConfig;
 use Jascha030\WP\Ajax\WpAjax;
 use Jascha030\WP\Subscriptions\Provider\ActionProvider;
@@ -22,7 +23,8 @@ class WpAjaxProvider extends WpAjax implements ActionProvider
     public function __construct(
         AjaxScriptConfig $jsConfig = null,
         bool $nopriv = true,
-        array $excludeMethods = []
+        array $excludeMethods = [],
+        array $callables = []
     ) {
         parent::__construct($jsConfig, $nopriv, false, $excludeMethods);
 
@@ -39,9 +41,29 @@ class WpAjaxProvider extends WpAjax implements ActionProvider
             }
         }
 
+        if (!empty($callables)) {
+            foreach ($this->callables as $c) {
+                if (is_array($c)) {
+                    add_action("wp_ajax_{$c[1]}", $c);
+                } else {
+                    add_action("wp_ajax_{$c}", $c);
+                }
+            }
+        }
+
         // Hook config method to enqueue script.
         if ($this->config) {
             self::$actions['wp_enqueue_scripts'] = [[$this->config, 'hook']];
         }
+    }
+
+    /**
+     * @param callable $callable
+     *
+     * @throws Exception
+     */
+    public function addCallable(callable $callable)
+    {
+        throw new Exception('For the provider, callables must be added in the constructor');
     }
 }
