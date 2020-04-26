@@ -25,7 +25,9 @@ if (!class_exists('Jascha030\WP\Ajax\Provider\WpAjaxProvider')) {
     {
         USE Provider;
 
-        public static $actions = [];
+        public static $actions = [
+            'wp_enqueue_scripts' => 'enqueueScripts'
+        ];
 
         /**
          * WpAjaxProvider constructor.
