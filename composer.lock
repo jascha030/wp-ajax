@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ec0f4fae2525b174b29bbafc7b9af1ef",
+    "content-hash": "10e8ec23311e9d13dfad14c3d7960ccb",
     "packages": [
         {
             "name": "jascha030/wp-subscriptions",
-            "version": "1.0.0",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/jascha030/wp-subscriptions.git",
-                "reference": "413b47305ad0750cc5eb5a1f180dff5f96705286"
+                "reference": "191bea22a26622c3f16b41adf82fdce5b5ea25df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jascha030/wp-subscriptions/zipball/413b47305ad0750cc5eb5a1f180dff5f96705286",
-                "reference": "413b47305ad0750cc5eb5a1f180dff5f96705286",
+                "url": "https://api.github.com/repos/jascha030/wp-subscriptions/zipball/191bea22a26622c3f16b41adf82fdce5b5ea25df",
+                "reference": "191bea22a26622c3f16b41adf82fdce5b5ea25df",
                 "shasum": ""
             },
             "type": "library",
@@ -39,7 +39,7 @@
                 }
             ],
             "description": "OOP Interface for using the WP Plugin API (Hooks)",
-            "time": "2020-04-09T22:06:33+00:00"
+            "time": "2020-04-26T12:09:05+00:00"
         }
     ],
     "packages-dev": [],
