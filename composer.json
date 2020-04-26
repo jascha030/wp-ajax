@@ -17,6 +17,7 @@
     }
   },
   "require": {
-    "jascha030/wp-subscriptions": "1.0.2"
+    "jascha030/wp-subscriptions": "1.0.3",
+    "jascha030/wp-oop-utilities": "1.0.0"
   }
 }
