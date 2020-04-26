@@ -2,7 +2,7 @@
 
 namespace Jascha030\WP\Ajax;
 
-use Jascha030\WP\Ajax\Script\AjaxScriptConfig;
+use Jascha030\WP\Ajax\Script\AjaxScriptFile;
 
 use ReflectionClass;
 use ReflectionException;
@@ -16,9 +16,9 @@ use ReflectionMethod;
 class WpAjax
 {
     /**
-     * @var AjaxScriptConfig
+     * @var array AjaxScriptFile
      */
-    protected $config;
+    protected $scripts;
 
     /**
      * @var ReflectionClass
@@ -36,14 +36,9 @@ class WpAjax
     protected $nopriv;
 
     /**
-     * @var array
-     */
-    protected $callables = [];
-
-    /**
      * WpAJax constructor.
      *
-     * @param AjaxScriptConfig|null $jsConfig
+     * @param AjaxScriptFile|null $scriptFile
      * @param bool $nopriv
      * @param bool $hook
      * @param array $excludeMethods
@@ -51,25 +46,20 @@ class WpAjax
      * @throws ReflectionException
      */
     public function __construct(
-        AjaxScriptConfig $jsConfig = null,
+        AjaxScriptFile $scriptFile = null,
         bool $nopriv = true,
-        bool $hook = true,
+        bool $hook = false,
         array $excludeMethods = []
     ) {
         $this->reflector = new ReflectionClass($this);
 
-        $this->config         = $jsConfig;
+        $this->scripts[]      = $scriptFile;
         $this->nopriv         = $nopriv;
-        $this->excludeMethods = array_merge(['hook', 'addAjaxScript'], $excludeMethods);
+        $this->excludeMethods = array_merge(['hook', 'setAjaxScript'], $excludeMethods);
 
         if ($hook) {
             $this->hook();
         }
-    }
-
-    public function addCallable(Callable $callable)
-    {
-        $this->callables[] = $callable;
     }
 
     /**
@@ -93,21 +83,16 @@ class WpAjax
                 }
             }
         }
+    }
 
-        // Hook manually added callable methods/functions
-        if (!empty($this->callables)) {
-            foreach ($this->callables as $c) {
-                if (is_array($c)) {
-                    add_action("wp_ajax_{$c[1]}", $c);
-                } else {
-                    add_action("wp_ajax_{$c}", $c);
-                }
-            }
-        }
-
-        // Hook config method to enqueue script.
-        if ($this->config) {
-            add_action('wp_enqueue_scripts', [$this->config, 'hook']);
+    /**
+     * Enqueue ajax scripts with wordpress
+     */
+    public function enqueueScripts()
+    {
+        foreach ($this->scripts as $script) {
+            /** @var AjaxScriptFile $script */
+            $script->enqueue();
         }
     }
 }

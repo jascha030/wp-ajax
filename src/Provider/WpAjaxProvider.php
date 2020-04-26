@@ -2,69 +2,60 @@
 
 namespace Jascha030\WP\Ajax\Provider;
 
-use Exception;
-use Jascha030\WP\Ajax\Script\AjaxScriptConfig;
+use Jascha030\WP\Ajax\Script\AjaxScriptFile;
 use Jascha030\WP\Ajax\WpAjax;
 use Jascha030\WP\Subscriptions\Provider\ActionProvider;
 use Jascha030\WP\Subscriptions\Provider\Provider;
+use ReflectionException;
 use ReflectionMethod;
 
-/**
- * Class WpAjaxProvider
- * For usage with the jascha030\wp-subscriptions package
- *
- * @package Jascha030\WP\Ajax\Provider
- */
-class WpAjaxProvider extends WpAjax implements ActionProvider
-{
-    USE Provider;
+if (! defined('ABSPATH')) {
+    die("Forbidden");
+} // Abandon ship.
 
-    public static $actions = [];
-
-    public function __construct(
-        AjaxScriptConfig $jsConfig = null,
-        bool $nopriv = true,
-        array $excludeMethods = [],
-        array $callables = []
-    ) {
-        parent::__construct($jsConfig, $nopriv, false, $excludeMethods);
-
-        foreach ($this->reflector->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
-            // Check if method is not excluded or magic
-            if (! in_array($method->name, $this->excludeMethods) && strpos($method->name, '__') === 0) {
-                $argumentsNum = $method->getNumberOfParameters();
-
-                self::$actions["wp_ajax_{$method}"] = [[$this, $method], $argumentsNum];
-
-                if ($this->nopriv) {
-                    self::$actions["wp_ajax_nopriv_{$method}"] = [[$this, $method], $argumentsNum];
-                }
-            }
-        }
-
-        if (!empty($callables)) {
-            foreach ($this->callables as $c) {
-                if (is_array($c)) {
-                    add_action("wp_ajax_{$c[1]}", $c);
-                } else {
-                    add_action("wp_ajax_{$c}", $c);
-                }
-            }
-        }
-
-        // Hook config method to enqueue script.
-        if ($this->config) {
-            self::$actions['wp_enqueue_scripts'] = [[$this->config, 'hook']];
-        }
-    }
-
+if (!class_exists('Jascha030\WP\Ajax\Provider\WpAjaxProvider')) {
     /**
-     * @param callable $callable
+     * Class WpAjaxProvider
      *
-     * @throws Exception
+     * For usage with the jascha030\wp-subscriptions package
+     *
+     * @package Jascha030\WP\Ajax\Provider
      */
-    public function addCallable(callable $callable)
+    class WpAjaxProvider extends WpAjax implements ActionProvider
     {
-        throw new Exception('For the provider, callables must be added in the constructor');
+        USE Provider;
+
+        public static $actions = [];
+
+        /**
+         * WpAjaxProvider constructor.
+         *
+         * @throws ReflectionException
+         */
+        public function __construct()
+        {
+            parent::__construct();
+
+            foreach ($this->reflector->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
+                // Check if method is not excluded or magic
+                if (! in_array($method->name, $this->excludeMethods) && strpos($method->name, '__') === 0) {
+                    $argumentsNum = $method->getNumberOfParameters();
+
+                    self::$actions["wp_ajax_{$method}"] = [[$this, $method], $argumentsNum];
+
+                    if ($this->nopriv) {
+                        self::$actions["wp_ajax_nopriv_{$method}"] = [[$this, $method], $argumentsNum];
+                    }
+                }
+            }
+        }
+
+        /**
+         * @param AjaxScriptFile $script
+         */
+        public function setAjaxScript(AjaxScriptFile $script)
+        {
+            $this->scripts[$script->getHandle()] = $script;
+        }
     }
 }
